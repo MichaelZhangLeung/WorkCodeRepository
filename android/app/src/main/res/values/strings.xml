@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SLC回国加速</string>
+    <string name="vpn_permission_denied">vpn权限拒绝</string>
+    <string name="vpn_prepare">准备就绪</string>
+    <string name="vpn_connecting">正在连接…</string>
+    <string name="vpn_connected">已连接</string>
+</resources>

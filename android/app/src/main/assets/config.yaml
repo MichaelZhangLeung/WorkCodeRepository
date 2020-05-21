@@ -1,0 +1,173 @@
+port: 7890
+socks-port: 7891
+allow-lan: false
+mode: Rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
+dns:
+  enable: true
+  ipv6: false
+  nameserver:
+    - https://dns.adguard.com/dns-query
+
+Proxy:
+  - name: "北美线路1(CN2)"
+    type: vmess
+    server: us.circsr.com
+    port: 4617
+    uuid: 53b8e857-521b-4417-9b23-970cc658f6da
+    alterId: 32
+    cipher: auto
+  - name: "北美线路2(Amazon Lightsail, 俄勒冈)"
+    type: vmess
+    server: us2.circsr.com
+    port: 4617
+    uuid: 53b8e857-521b-4417-9b23-970cc658f6da
+    alterId: 32
+    cipher: auto
+  - name: "北美线路3(AWS, us-east-1)"
+    type: vmess
+    server: us3.circsr.com
+    port: 4617
+    uuid: 53b8e857-521b-4417-9b23-970cc658f6da
+    alterId: 32
+    cipher: auto
+  - name: "澳洲线路3(Amazon Lightsail, 悉尼)"
+    type: vmess
+    server: au1.circsr.com
+    port: 4617
+    uuid: 53b8e857-521b-4417-9b23-970cc658f6da
+    alterId: 32
+    cipher: auto
+  - name: "香港线路"
+    type: vmess
+    server: hk1.circsr.com
+    port: 4617
+    uuid: 53b8e857-521b-4417-9b23-970cc658f6da
+    alterId: 32
+    cipher: auto
+  - name: "普通线路"
+    type: vmess
+    server: cn1.circsr.com
+    port: 4617
+    uuid: 53b8e857-521b-4417-9b23-970cc658f6da
+    alterId: 32
+    cipher: auto
+
+Proxy Group:
+  - name: ChinaVPN
+    type: select
+    proxies:
+      - "北美线路1(CN2)"
+      - "北美线路2(Amazon Lightsail, 俄勒冈)"
+      - "北美线路3(AWS, us-east-1)"
+      - "澳洲线路3(Amazon Lightsail, 悉尼)"
+      - "香港线路"
+      - "普通线路"
+
+Rule:
+  # 绕过代理 - 北美视频网站
+  - DOMAIN-SUFFIX,primevideo.com,DIRECT
+  - DOMAIN-SUFFIX,netflix.com,DIRECT
+  # 国内二级域名
+  - DOMAIN-SUFFIX,cn,ChinaVPN
+  - DOMAIN-KEYWORD,-cn,ChinaVPN
+  # AcFun
+  - DOMAIN-SUFFIX,acfun.cn,ChinaVPN
+  - DOMAIN-SUFFIX,acfun.com,ChinaVPN
+  - DOMAIN-SUFFIX,aixifan.com,ChinaVPN
+  # 网易
+  - DOMAIN-SUFFIX,163.com,ChinaVPN
+  - DOMAIN-SUFFIX,126.com,ChinaVPN
+  - DOMAIN-SUFFIX,127.net,ChinaVPN
+  - DOMAIN-SUFFIX,netease.com,ChinaVPN
+  - DOMAIN-SUFFIX,163yun.com,ChinaVPN
+  - DOMAIN-SUFFIX,126.net,ChinaVPN
+  # 腾讯
+  - DOMAIN-SUFFIX,qq.com,ChinaVPN
+  - DOMAIN-SUFFIX,soso.com,ChinaVPN
+  - DOMAIN-SUFFIX,qpic.cn,ChinaVPN
+  - DOMAIN-SUFFIX,gtimg.cn,ChinaVPN
+  - DOMAIN-SUFFIX,weixin.com,ChinaVPN
+  - DOMAIN-SUFFIX,qlogo.cn,ChinaVPN
+  - IP-CIDR,203.205.192.0/18,ChinaVPN
+  # 新浪
+  - DOMAIN-SUFFIX,weibo.com,ChinaVPN
+  - DOMAIN-SUFFIX,sinajs.cn,ChinaVPN
+  - DOMAIN-SUFFIX,sina.com,ChinaVPN
+  - DOMAIN-SUFFIX,sina.cn,ChinaVPN
+  - DOMAIN-SUFFIX,sina.com.cn,ChinaVPN
+  - DOMAIN-SUFFIX,sinaimg.cn,ChinaVPN
+  - DOMAIN-SUFFIX,sinajs.cn,ChinaVPN
+  - DOMAIN-SUFFIX,miaopai.com,ChinaVPN
+  - DOMAIN-SUFFIX,xiaoka.tv,ChinaVPN
+  - DOMAIN-SUFFIX,t.cn,ChinaVPN
+  # 阿里
+  - DOMAIN-SUFFIX,aliyun.com,ChinaVPN
+  - DOMAIN-SUFFIX,taobao.com,ChinaVPN
+  - DOMAIN-SUFFIX,alicdn.com,ChinaVPN
+  - DOMAIN-SUFFIX,tmall.com,ChinaVPN
+  - DOMAIN-SUFFIX,mmstat.com,ChinaVPN
+  - DOMAIN-SUFFIX,tbcdn.com,ChinaVPN
+  - DOMAIN-SUFFIX,alibabacloud.com,ChinaVPN
+  - DOMAIN-SUFFIX,alipay.com,ChinaVPN
+  - DOMAIN-SUFFIX,hichina.com,ChinaVPN
+  - DOMAIN-SUFFIX,xiami.com,ChinaVPN
+  - DOMAIN-SUFFIX,xiami.net,ChinaVPN
+  # 百度
+  - DOMAIN-SUFFIX,baidu.com,ChinaVPN
+  - DOMAIN-SUFFIX,bdstatic.com,ChinaVPN
+  - DOMAIN-SUFFIX,bcebos.com,ChinaVPN
+  - DOMAIN-SUFFIX,baidupcs.com,ChinaVPN
+  - DOMAIN-SUFFIX,qianqian.com,ChinaVPN
+  # Bilibili
+  - DOMAIN-SUFFIX,hdslb.com,ChinaVPN
+  - DOMAIN-SUFFIX,bilibili.com,ChinaVPN
+  - DOMAIN-SUFFIX,geetest.com,ChinaVPN
+  - DOMAIN-SUFFIX,acgvideo.com,ChinaVPN
+  - DOMAIN-SUFFIX,bilivideo.com,ChinaVPN
+  # 湖南TV
+  - DOMAIN-SUFFIX,hitv.com,ChinaVPN
+  - DOMAIN-SUFFIX,hunantv.com,ChinaVPN
+  - DOMAIN-SUFFIX,mgtv.com,ChinaVPN
+  # Migu
+  - DOMAIN-SUFFIX,cmvideo.cn,ChinaVPN
+  - DOMAIN-SUFFIX,migu.cn,ChinaVPN
+  - DOMAIN-SUFFIX,miguvideo.com,ChinaVPN
+  # 优酷
+  - DOMAIN-SUFFIX,soku.com,ChinaVPN
+  - DOMAIN-SUFFIX,youku.com,ChinaVPN
+  - DOMAIN-SUFFIX,ykimg.com,ChinaVPN
+  # 爱奇艺
+  - DOMAIN-SUFFIX,iqiyi.com,ChinaVPN
+  - DOMAIN-SUFFIX,iqiyipic.com,ChinaVPN
+  - DOMAIN-SUFFIX,qy.net,ChinaVPN
+  # 搜狐
+  - DOMAIN-SUFFIX,sohu.com,ChinaVPN
+  - DOMAIN-SUFFIX,sohu.com.cn,ChinaVPN
+  - DOMAIN-SUFFIX,itc.cn,ChinaVPN
+  - DOMAIN-SUFFIX,v-56.com,ChinaVPN
+  # Kugou, Kuwo
+  - DOMAIN-SUFFIX,kugou.com,ChinaVPN
+  - DOMAIN-SUFFIX,kuwo.cn,ChinaVPN
+  - DOMAIN-SUFFIX,koowo.com,ChinaVPN
+  # 知乎
+  - DOMAIN-SUFFIX,zhihu.com,ChinaVPN
+  - DOMAIN-SUFFIX,zhimg.com,ChinaVPN
+  # 秀米
+  - DOMAIN-SUFFIX,xiumi.us,ChinaVPN
+  # 豆瓣
+  - DOMAIN-SUFFIX,douban.com,ChinaVPN
+  - DOMAIN-SUFFIX,doubanio.com,ChinaVPN
+  # 天眼查
+  - DOMAIN-SUFFIX,tianyancha.com,ChinaVPN
+  # IP地址测试
+  - DOMAIN-SUFFIX,ip138.com,ChinaVPN
+  - DOMAIN-SUFFIX,ipip.net,ChinaVPN
+   
+  # 中国IP
+  - GEOIP,CN,ChinaVPN
+   
+  # 其他流量
+  - MATCH,DIRECT
